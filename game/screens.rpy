@@ -96,25 +96,28 @@ style frame:
 ## https://www.renpy.org/doc/html/screen_special.html#say
 
 screen say(who, what):
-    style_prefix "say"
+    if horned_game:
+        use horned_say(who, what)
+    else:
+        style_prefix "say"
 
-    window:
-        id "window"
+        window:
+            id "window"
 
-        if who is not None:
+            if who is not None:
 
-            window:
-                id "namebox"
-                style "namebox"
-                text who id "who"
+                window:
+                    id "namebox"
+                    style "namebox"
+                    text who id "who"
 
-        text what id "what"
+            text what id "what"
 
 
-    ## If there's a side image, display it above the text. Do not display on the
-    ## phone variant - there's no room.
-    if not renpy.variant("small"):
-        add SideImage() xalign 0.0 yalign 1.0
+        ## If there's a side image, display it above the text. Do not display on the
+        ## phone variant - there's no room.
+        if not renpy.variant("small"):
+            add SideImage() xalign 0.0 yalign 1.0
 
 
 ## Make the namebox available for styling through the Character object.
@@ -206,12 +209,13 @@ style input:
 ## https://www.renpy.org/doc/html/screen_special.html#choice
 
 screen choice(items):
-    style_prefix "choice"
-
-    vbox:
-        for i in items:
-            textbutton i.caption action i.action
-
+    if horned_game:
+        use horned_choice(items)
+    else:
+        style_prefix "choice"
+        vbox:
+            for i in items:
+                textbutton i.caption action i.action
 
 style choice_vbox is vbox
 style choice_button is button

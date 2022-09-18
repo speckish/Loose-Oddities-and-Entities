@@ -1,0 +1,13 @@
+$orb_unwrapped = False
+$drew_killed = False
+$minigame_win = False
+$with_cards = False
+$rooms_left = 12
+$choice_cards_01 = False
+$drew_kill_count = 0
+$living_people = 0
+$people_still_alive = True 
+$people_dead = False
+$last_monster = None
+$cards_alive = True
+$cards_killed = False

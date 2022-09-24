@@ -1,13 +1,11 @@
-# Customizable variables.
 define cards_num_cards = 3 # How many cards are splayed at once.
 define cards_padding = 300
-# Customizable variables end here.
-
 default cards_selected = None
 
 image card_back = "mechanics/cards/card_back.png"
 image card_front_good = "mechanics/cards/card_front_good.png"
 image card_front_bad = "mechanics/cards/card_front_bad.png"
+image card_front_neutral = "mechanics/cards/card_front_neutral.png"
 
 transform card_spacer:
     alpha 0.01
@@ -72,7 +70,7 @@ transform card_front_flip_up:
 screen cards_game(cards):
     tag cards
     for i in range(len(cards)):
-        use card(cards[i], i)
+        use card(cards[i], i, True)
 
 screen deal_cards(cards):
     for i in range(len(cards)):
@@ -84,15 +82,16 @@ screen reveal_cards(cards):
         if i == cards_selected:
             use reveal_card(cards[i], i)
         else:
-            use card(cards[i], i, False)
+            use card(cards[i], i)
 
-screen card(c, i, w=True):
-    default card_front = "card_front_bad" if not c else "card_front_good"
+screen card(c, i, w=False):
+    default card_front = "card_front_%s" % c
     button:
-        action [SetVariable("cards_selected", i), Return()]
+        if w:
+            action [SetVariable("cards_selected", i), Return()]
         at card(i)
         fixed:
-            if c and w:
+            if c == cards_desired_card and w:
                 at card_wiggle
             fit_first True
             add "card_back" at card_spacer
@@ -101,7 +100,7 @@ screen card(c, i, w=True):
 
 screen deal_card(c, i):
     tag cards
-    default card_front = "card_front_bad" if not c else "card_front_good"
+    default card_front = "card_front_%s" % c
     fixed:
         at card_slide_in(i)
         fit_first True
@@ -111,7 +110,7 @@ screen deal_card(c, i):
 
 screen reveal_card(c, i):
     tag cards
-    default card_front = "card_front_bad" if not c else "card_front_good"
+    default card_front = "card_front_%s" % c
     fixed:
         at card(i), card_flip_up
         fit_first True
@@ -122,8 +121,7 @@ screen reveal_card(c, i):
 label start_cards_game:
     window hide
     $ card_selected = False
-    $ cards = [None for i in range(cards_num_cards-1)]
-    $ cards.append(True)
+    $ cards = ["good", "bad", "neutral"]
     $ random.shuffle(cards)
     show screen deal_cards(cards)
     pause 3.5
@@ -133,10 +131,5 @@ label start_cards_game:
     # window hide
     show screen reveal_cards(cards)
     pause 1.0
-    if cards[cards_selected]:
-        "Lucky guess. You pass for now."
-        jump end_game
-    else:
-        "OOHHH, so close...but not close enough. Guess you die now!"
-        jump end_game
+    call expression "cards_picked_%s_card" % cards[cards_selected]
     return

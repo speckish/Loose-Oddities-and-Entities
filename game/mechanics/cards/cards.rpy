@@ -124,8 +124,8 @@ label start_cards_game:
     $ cards = ["good", "bad", "neutral"]
     $ random.shuffle(cards)
     show screen deal_cards(cards)
-    pause 3.5
-    "Now, pick, and pick correctly or else!"
+    pause 3.85
+    call cards_intro
     hide screen deal_cards
     call screen cards_game(cards)
     # window hide

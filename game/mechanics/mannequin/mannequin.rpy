@@ -1,37 +1,33 @@
 ###
-define back_pos = (892, 540)
-define open_scar_pos = (879, 705)
-define open_scar_mask_pos = (878, 704)
-
-define left_bandage_3_pos = (756, 715)
-define left_bandage_2_pos = (747, 791)
-define left_bandage_1_pos = (750, 971)
-define right_bandage_3_pos = (1028, 711)
-define right_bandage_2_pos = (1035, 796)
-define right_bandage_1_pos = (1056, 974)
-
-define worm_pos = (1268, 398)
-
-define left_cinch_1_pos = (1039, 484)
-define left_stitch_1_pos = (1044, 486)
-define left_cinch_2_pos = (1029, 585)
-define left_stitch_2_pos = (1033, 587)
-define left_cinch_3_pos = (1015, 690)
-define left_stitch_3_pos = (1018, 692)
-define left_cinch_4_pos = (998, 790)
-define left_stitch_4_pos = (995, 791)
-define left_cinch_5_pos = (986, 933)
-define left_stitch_5_pos = (992, 934)
-define right_cinch_1_pos = (724, 496)
-define right_stitch_1_pos = (736, 492)
-define right_cinch_2_pos = (739, 596)
-define right_stitch_2_pos = (747, 598)
-define right_cinch_3_pos = (754, 702)
-define right_stitch_3_pos = (754, 703)
-define right_cinch_4_pos = (767, 797)
-define right_stitch_4_pos = (763, 797)
-define right_cinch_5_pos = (786, 955)
-define right_stitch_5_pos = (786, 951)
+define back_pos = (920, 535)
+define open_scar_pos = (905, 707)
+define open_scar_mask_pos = (905, 691)
+define left_cinch_1_pos = (693, 393)
+define left_cinch_2_pos = (707, 531)
+define left_cinch_3_pos = (724, 693)
+define left_cinch_4_pos = (733, 838)
+define left_cinch_5_pos = (748, 1031)
+define right_cinch_1_pos = (1119, 393)
+define right_cinch_2_pos = (1105, 531)
+define right_cinch_3_pos = (1088, 693)
+define right_cinch_4_pos = (1078, 838)
+define right_cinch_5_pos = (1064, 1031)
+define left_stitch_1_pos = (691, 379)
+define left_stitch_2_pos = (704, 518)
+define left_stitch_3_pos = (720, 681)
+define left_stitch_4_pos = (732, 833)
+define left_stitch_5_pos = (746, 1026)
+define right_stitch_1_pos = (1122, 379)
+define right_stitch_2_pos = (1108, 518)
+define right_stitch_3_pos = (1092, 681)
+define right_stitch_4_pos = (1081, 833)
+define right_stitch_5_pos = (1066, 1026)
+define right_bandage_3_pos = (938, 678)
+define left_bandage_3_pos = (721, 673)
+define right_bandage_2_pos = (911, 794)
+define left_bandage_2_pos = (710, 790)
+define right_bandage_1_pos = (871, 1092)
+define left_bandage_1_pos = (702, 975)
 ###
 
 image mannequin_background = "mechanics/mannequin/background.png"
@@ -46,7 +42,8 @@ image right_bandage_2 = "mechanics/mannequin/right_bandage_2.png"
 image right_bandage_1 = "mechanics/mannequin/right_bandage_3.png"
 image left_cinch_1 = "mechanics/mannequin/left_cinch_1.png"
 image left_stitch_1 = "mechanics/mannequin/left_stitch_1.png"
-image worm = "mechanics/mannequin/worm.png"
+image worm_1 = "mechanics/mannequin/worm_1.png"
+image worm_2 = "mechanics/mannequin/worm_2.png"
 image left_cinch_2 = "mechanics/mannequin/left_cinch_2.png"
 image left_stitch_2 = "mechanics/mannequin/left_stitch_2.png"
 image left_cinch_3 = "mechanics/mannequin/left_cinch_3.png"
@@ -73,6 +70,12 @@ default stitches_right = set([1, 2, 3, 4, 5])
 default bandage_left = 3
 default bandage_right = 3
 
+image worm:
+    choice:
+        "worm_1"
+    choice:
+        "worm_2"
+
 transform worm_wiggle(s):
     xoffset 115*s
     zoom 0.0
@@ -81,6 +84,11 @@ transform worm_wiggle(s):
             yzoom 1.0
         choice:
             yzoom -1.0
+    block:
+        choice:
+            xzoom 1.0
+        choice:
+            xzoom -1.0
     choice:
         pause 0.5
     choice:
@@ -100,7 +108,7 @@ transform worm_wiggle(s):
 
 
 transform stitch_pop(s):
-    linear 0.25 zoom 1.25
+    linear 0.15 zoom 1.35
     parallel:
         linear 0.5 zoom 1.0
     parallel:
@@ -121,59 +129,62 @@ transform stitch_pop(s):
 transform bandage_drop(s):
     linear 0.5 xoffset 200*s yoffset 300 rotate 50*s
 
-screen mannequin_game:
+screen mannequin_game(interactable=True):
     if not stitches_left and not stitches_right:
         timer 1.5 action Jump("mannequin_success")
     add "mannequin_background"
     add "mannequin_back" anchor (0.5, 0.5) pos back_pos
     add "open_scar" anchor (0.5, 0.5) pos open_scar_pos
     for i in range(1,6):
-        use worm("left", i)
-        use worm("right", i)
+        use worm("left", i, interactable)
+        use worm("right", i, interactable)
     add "open_scar_mask" anchor (0.5, 0.5) pos open_scar_mask_pos
     for i in range(1,6):
-        use stitch("left", i)
-        use stitch("right", i)
-    use bandage("left")
-    use bandage("right")
+        use stitch("left", i, interactable)
+        use stitch("right", i, interactable)
+    use bandage("left", interactable)
+    use bandage("right", interactable)
     for i in range(1,6):
         use top_stitch("left", i)
         use top_stitch("right", i)
 
-screen worm(side, i):
+screen worm(side, i, interactable=True):
     if not i in getattr(renpy.store, "stitches_%s" % side):
         imagebutton:
-            at worm_wiggle(1 if side == "right" else -1)
+            at worm_wiggle(-1 if side == "right" else 1)
             focus_mask True
-            idle "worm"
+            if interactable:
+                idle "worm"
             anchor (0.5, 0.5)
             pos getattr(renpy.store, "%s_cinch_%i_pos" % (side, i))
             action Jump("mannequin_fail")
 
 # Could use some feedback like a hover or a cursor change
-screen stitch(side, i):
+screen stitch(side, i, interactable=True):
     if i in getattr(renpy.store, "stitches_%s" % side):
         add "%s_cinch_%i" % (side, i):
             anchor (0.5, 0.5)
             pos getattr(renpy.store, "%s_cinch_%i_pos" % (side, i))
         imagebutton:
             # focus_mask True
-            action RemoveFromSet(getattr(renpy.store, "stitches_%s" % side), i)
+            if interactable:
+                action RemoveFromSet(getattr(renpy.store, "stitches_%s" % side), i)
             idle "%s_stitch_%i" % (side, i)
             anchor (0.5, 0.5)
             pos getattr(renpy.store, "%s_stitch_%i_pos" % (side, i))
 
 screen top_stitch(side, i):
     if not i in getattr(renpy.store, "stitches_%s" % side):
-        add "%s_stitch_%i" % (side, i) at stitch_pop(-1 if side == "right" else 1):
+        add "%s_stitch_%i" % (side, i) at stitch_pop(1 if side == "right" else -1):
             anchor (0.5, 0.5)
             pos getattr(renpy.store, "%s_stitch_%i_pos" % (side, i))
 
-screen bandage(side):
+screen bandage(side, interactable=True):
     if getattr(renpy.store, "bandage_%s" % side):
         imagebutton:
             focus_mask True
-            action SetVariable("bandage_%s" % side, getattr(renpy.store, "bandage_%s" % side)-1)
+            if interactable:
+                action SetVariable("bandage_%s" % side, getattr(renpy.store, "bandage_%s" % side)-1)
             idle "%s_bandage_%i" % (side, getattr(renpy.store, "bandage_%s" % side))
             anchor (0.5, 0.5)
             pos getattr(renpy.store, "%s_bandage_%i_pos" % (side, getattr(renpy.store, "bandage_%s" % side)))
@@ -184,13 +195,7 @@ screen bandage(side):
             at bandage_drop(1 if side == "right" else -1)
 
 label start_mannequin_game:
+    show screen mannequin_game(False)
+    call mannequin_intro
     call screen mannequin_game
     return
-
-label mannequin_success:
-    "You did it! <Won mannequin game."
-    jump end_game
-
-label mannequin_fail:
-    "You failed! <Lost mannequin game.>"
-    jump end_game

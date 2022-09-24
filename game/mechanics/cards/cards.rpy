@@ -120,6 +120,7 @@ screen reveal_card(c, i):
 
 label start_cards_game:
     window hide
+    show black with fade
     $ card_selected = False
     $ cards = ["good", "bad", "neutral"]
     $ random.shuffle(cards)

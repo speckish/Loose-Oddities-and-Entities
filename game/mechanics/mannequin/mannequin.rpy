@@ -1,5 +1,4 @@
 ###
-define background_pos = (960, 540)
 define back_pos = (892, 540)
 define open_scar_pos = (879, 705)
 define open_scar_mask_pos = (878, 704)

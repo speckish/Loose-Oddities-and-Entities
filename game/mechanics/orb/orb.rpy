@@ -50,7 +50,7 @@ label orb_game_loop:
     else:
         $ orb_attempts -= 1
         if not orb_attempts:
-            jump orb_fail
+            call orb_fail(_return)
         else:
             call orb_incorrect(_return)
     jump orb_game_loop
@@ -64,6 +64,8 @@ label orb_success:
     "<You succeeded at the orb's task.>"
     jump end_game
 
-label orb_fail:
+label orb_fail(i):
+    $ i_cap = i.capitalize()
+    "[i_cap] was not what the orb wanted."
     "<You failed the orb's task.>"
     jump end_game

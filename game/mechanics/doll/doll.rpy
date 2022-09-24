@@ -1,8 +1,8 @@
 # Customizable variables
 define swing_speed = 3.0 # Seconds it takes for a swing to traverse the bar once.
 
-default swing_force = 0.0
 default doll_attempts = 0
+default swing_force = 0.0
 
 image swing_bar = "mechanics/doll/swing_bar.png"
 image swing_indicator = "mechanics/doll/swing_indicator.png"
@@ -60,6 +60,3 @@ label beat_doll_game:
     "Shards of the doll's head fly in all directions and you're left with the jagged edge of it's porcelain neck staring back at you."
     "<Sucess>"
     jump end_game
-
-label end_game:
-    $ renpy.full_restart()

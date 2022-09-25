@@ -67,28 +67,55 @@ image right_stitch_5 = "mechanics/mannequin/right_stitch_5.png"
 default stitches_left = set([1, 2, 3, 4, 5])
 default stitches_right = set([1, 2, 3, 4, 5])
 
+default worm_left_1 = None
+default worm_left_2 = None
+default worm_left_3 = None
+default worm_left_4 = None
+default worm_left_5 = None
+default worm_right_1 = None
+default worm_right_2 = None
+default worm_right_3 = None
+default worm_right_4 = None
+default worm_right_5 = None
+
 default bandage_left = 3
 default bandage_right = 3
 
-image worm:
-    choice:
-        "worm_1"
-    choice:
-        "worm_2"
+image worm_1:
+    "mechanics/mannequin/worm_1.png"
+    xzoom 1.0 yzoom 1.0
 
-transform worm_wiggle(s):
+image worm_2:
+    "mechanics/mannequin/worm_1.png"
+    xzoom 1.0 yzoom -1.0
+
+image worm_3:
+    "mechanics/mannequin/worm_1.png"
+    xzoom -1.0 yzoom 1.0
+
+image worm_4:
+    "mechanics/mannequin/worm_1.png"
+    xzoom -1.0 yzoom -1.0
+
+image worm_5:
+    "mechanics/mannequin/worm_2.png"
+    xzoom 1.0 yzoom 1.0
+
+image worm_6:
+    "mechanics/mannequin/worm_2.png"
+    xzoom 1.0 yzoom -1.0
+
+image worm_7:
+    "mechanics/mannequin/worm_2.png"
+    xzoom -1.0 yzoom 1.0
+
+image worm_8:
+    "mechanics/mannequin/worm_2.png"
+    xzoom -1.0 yzoom -1.0
+
+transform worm_wiggle_out(s):
     xoffset 115*s
     zoom 0.0
-    block:
-        choice:
-            yzoom 1.0
-        choice:
-            yzoom -1.0
-    block:
-        choice:
-            xzoom 1.0
-        choice:
-            xzoom -1.0
     choice:
         pause 0.5
     choice:
@@ -102,10 +129,19 @@ transform worm_wiggle(s):
     parallel:
         linear 0.125 rotate 5
         block:
-            linear 0.25 rotate -10
-            linear 0.25 rotate 10
+            linear random.uniform(0.125, 0.35) rotate -10
+            linear random.uniform(0.125, 0.35) rotate 10
             repeat
 
+transform worm_wiggle(s):
+    choice:
+        linear random.uniform(0.125, 0.35) rotate -10
+        linear random.uniform(0.125, 0.35) rotate 10
+        repeat
+    choice:
+        linear random.uniform(0.125, 0.35) rotate 10
+        linear random.uniform(0.125, 0.35) rotate -10
+        repeat
 
 transform stitch_pop(s):
     linear 0.15 zoom 1.35
@@ -131,7 +167,7 @@ transform bandage_drop(s):
 
 screen mannequin_game(interactable=True):
     if not stitches_left and not stitches_right:
-        timer 1.5 action Jump("mannequin_success")
+        timer 2.5 action Jump("mannequin_success")
     add "mannequin_background"
     add "mannequin_back" anchor (0.5, 0.5) pos back_pos
     add "open_scar" anchor (0.5, 0.5) pos open_scar_pos
@@ -145,19 +181,22 @@ screen mannequin_game(interactable=True):
     use bandage("left", interactable)
     use bandage("right", interactable)
     for i in range(1,6):
-        use top_stitch("left", i)
-        use top_stitch("right", i)
+        use top_stitch("left", i, interactable)
+        use top_stitch("right", i, interactable)
 
 screen worm(side, i, interactable=True):
     if not i in getattr(renpy.store, "stitches_%s" % side):
         imagebutton:
-            at worm_wiggle(-1 if side == "right" else 1)
-            focus_mask True
             if interactable:
-                idle "worm"
+                at worm_wiggle_out(-1 if side == "right" else 1)
+                action Jump("mannequin_fail")
+            else:
+                at worm_wiggle(-1 if side == "right" else 1)
+            focus_mask True
+            idle "worm_%i" % getattr(renpy.store, "worm_%s_%i" % (side, i))
             anchor (0.5, 0.5)
             pos getattr(renpy.store, "%s_cinch_%i_pos" % (side, i))
-            action Jump("mannequin_fail")
+
 
 # Could use some feedback like a hover or a cursor change
 screen stitch(side, i, interactable=True):
@@ -168,13 +207,14 @@ screen stitch(side, i, interactable=True):
         imagebutton:
             # focus_mask True
             if interactable:
-                action RemoveFromSet(getattr(renpy.store, "stitches_%s" % side), i)
+                action [RemoveFromSet(getattr(renpy.store, "stitches_%s" % side), i),
+                        SetVariable("worm_%s_%i" % (side, i), random.randint(1, 8))]
             idle "%s_stitch_%i" % (side, i)
             anchor (0.5, 0.5)
             pos getattr(renpy.store, "%s_stitch_%i_pos" % (side, i))
 
-screen top_stitch(side, i):
-    if not i in getattr(renpy.store, "stitches_%s" % side):
+screen top_stitch(side, i, interactable=True):
+    if not i in getattr(renpy.store, "stitches_%s" % side) and interactable:
         add "%s_stitch_%i" % (side, i) at stitch_pop(1 if side == "right" else -1):
             anchor (0.5, 0.5)
             pos getattr(renpy.store, "%s_stitch_%i_pos" % (side, i))

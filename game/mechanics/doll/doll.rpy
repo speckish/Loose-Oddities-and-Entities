@@ -9,11 +9,30 @@ image missed_hit = "mechanics/doll/missed_hit.png"
 image doll_background = "mechanics/doll/background.png"
 image transparent = "#ff000001"
 
-transform doll_shiver:
-    psss
+transform doll_miss:
+    pause 0.85
+    linear 0.05 rotate 2
+    linear 0.15 rotate -4
+    linear 0.15 rotate 0
 
 transform missed_hit_flash:
-    pass
+    alpha 0.0
+    pause 0.65
+    block:
+        linear 0.5 alpha 1.0 offset (25, -25)
+        linear 0.5 alpha 0.65 offset (0, 0)
+        repeat
+
+transform doll_hit:
+    pause 0.85
+    parallel:
+        linear 0.05 rotate 2
+        linear 0.15 rotate -4
+        linear 0.10 rotate 6
+        linear 0.05 rotate -2
+    parallel:
+        linear 0.25 zoom 1.0025
+        linear 0.5 zoom 1.0
 
 transform hammer_miss(sf):
     rotate -sf/420*30
@@ -50,11 +69,14 @@ screen doll_game(interactable=True):
 
 screen doll_game_attempt(success=False):
     add "doll_background"
-    add "doll" anchor (0.5, 0.5) pos (0.25, 1.0)
     if success:
+        add "doll" anchor (0.5, 0.5) pos (0.25, 1.0) at doll_hit
         add "hammer" at hammer_hit(swing_force)
     else:
+        add "missed_hit" at missed_hit_flash pos (0.30, 0.10)
+        add "doll" anchor (0.5, 0.5) pos (0.25, 1.0) at doll_miss
         add "hammer" at hammer_miss(swing_force)
+
 
 init -1 python:
     def swing_indicator_transform(t, st, at):
@@ -91,7 +113,7 @@ label doll_game_loop:
         show screen doll_game(False)
         pause 0.0
         hide screen doll_game
-        show screen doll_game_attempt(True)
+        show screen doll_game_attempt
         with dissolve
         call expression ("miss_doll_"+str(doll_attempts))
         jump doll_game_loop

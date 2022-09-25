@@ -142,3 +142,42 @@ label orb_fail(i):
     "[i_cap] was not what the orb wanted."
     "<You failed the orb's task.>"
     jump end_game
+
+########
+# Doll #
+########
+
+# Seconds it takes for a swing to traverse the bar once.
+define swing_speed = 2.5
+
+# Intro labels.
+label doll_intro:
+    "Take a swing, and don't miss!"
+    return
+
+# Swing attempt labels.
+label miss_doll_1:
+    "<First Miss>"
+    return
+
+label miss_doll_2:
+    "<Second Miss>"
+    return
+
+# For how many chances you get, the number of attempt labels must be the same.
+# The last attempt label is always treated as the fail label.
+label miss_doll_3:
+    "<Third Miss>"
+    "<Bad End>"
+    jump end_game
+
+# Success label.
+label beat_doll_game:
+    "*CRACK*"
+    "Shards of the doll's head fly in all directions and you're left with the jagged edge of it's porcelain neck staring back at you."
+    "<Sucess>"
+    jump end_game
+
+#########
+# Woman #
+#########

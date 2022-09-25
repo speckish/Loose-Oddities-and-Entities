@@ -1,4 +1,4 @@
 ﻿label start:
-    # jump start_doll_game
-    # jump start_mannequin_game
+    $ renpy.watch("int(swing_force)")
+    jump test_mechanics
     return

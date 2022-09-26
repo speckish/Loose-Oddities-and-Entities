@@ -1,6 +1,7 @@
 $orb_unwrapped = False
 $drew_killed = False
 $minigame_win = False
+$minigame_
 $with_cards = False
 $rooms_left = 12
 $choice_cards_01 = False
@@ -9,5 +10,14 @@ $living_people = 0
 $people_still_alive = True 
 $people_dead = False
 $last_monster = None
+$monsters_dead =[]
 $cards_alive = True
 $cards_killed = False
+$touched_doll = False
+$card_liked_that = 0
+$rooms_explored = []
+$collected_monsters =[]
+$office_explored = False
+$storage_explored = False
+$basement_explored = False
+$bedroom_explored = False

@@ -132,6 +132,7 @@ d "Do you need anything?"
 "Something tells me to try and be helpful to these two, but the mannequin seems preoccupied with the doll. It mumbles to the silent doll on its shoulder and pats it softly with its arm."
 "I think it's time for me to go."
 "I stand up quietly and move towards the door. It creaks as I open it, but neither the mannequin nor the doll look at me as I slip out."
+storage_1 = True
 scene hallway
 if "office" in rooms_explored:
     "I think it's time for me to call mom. She better have some good explanations for this."

@@ -21,3 +21,4 @@ $office_explored = False
 $storage_explored = False
 $basement_explored = False
 $bedroom_explored = False
+$storage_1 = False

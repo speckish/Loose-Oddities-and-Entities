@@ -181,3 +181,36 @@ label beat_doll_game:
 #########
 # Woman #
 #########
+
+# Length of the game in seconds.
+define woman_length = 30.0
+
+# Minimum time between prompts.
+define woman_frequency_min = 2.5
+
+# Maximum time between prompts.
+define woman_frquency_max = 3.5
+
+# Time you have to respond to a prompt before you make a noise.
+define woman_prompt_timeout = 2.0
+
+# Number of times the woman will let you slip up before you're killed. To be determined by whether or not the woman likes you.
+define woman_chances = 1
+
+# Keys used in the woman's QTE.
+define woman_keys = "1234567890"
+
+# Fail label.
+label failed_woman_game:
+    "woman" "I told you to be quiet!"
+    stop ambient fadeout 1.0
+    hide screen drew_woman_bg with dissolve
+    jump end_game
+    pass
+
+# Success label.
+label beat_woman_game:
+    "woman" "You made it! Guesss I won't have to kill you~"
+    stop ambient fadeout 1.0
+    hide screen drew_woman_bg with dissolve
+    jump end_game

@@ -124,6 +124,7 @@ label start_cards_game:
     $ card_selected = False
     $ cards = ["good", "bad", "neutral"]
     $ random.shuffle(cards)
+    play sound "mechanics/cards/SFX_Spooktober_Cards_Shuffle.ogg"
     show screen deal_cards(cards)
     pause 3.85
     call cards_intro
@@ -131,6 +132,7 @@ label start_cards_game:
     call screen cards_game(cards)
     # window hide
     show screen reveal_cards(cards)
+    play sound "mechanics/cards/SFX_Spooktober_Cards_Flip.ogg"
     pause 1.0
     call expression "cards_picked_%s_card" % cards[cards_selected]
     return

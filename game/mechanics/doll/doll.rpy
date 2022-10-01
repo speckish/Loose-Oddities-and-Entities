@@ -105,6 +105,7 @@ label doll_game_loop:
         show screen doll_game(False)
         pause 0.0
         hide screen doll_game
+        play sound ["<silence 0.65>", "mechanics/doll/SFX_Spooktober_Doll_PorcelainBreak.ogg"]
         show screen doll_game_attempt(True)
         with dissolve
         jump beat_doll_game

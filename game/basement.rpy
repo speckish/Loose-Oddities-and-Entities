@@ -10,10 +10,10 @@ label basement:
     d "Wait, just wait a moment—"
     w "Just let me go, please!"
     menu:
-    "Question Her":
-        jump question_her
-    "Get Rid of Her":
-        jump question_her
+        "Question Her":
+            jump question_her
+        "Get Rid of Her":
+            jump question_her
 label question_her:
     d "Why are you locked up?"
     "She pauses for a moment."
@@ -47,10 +47,10 @@ label no_gotta_kill:
     if choice_cards_01:
         "The cards flip to reveal a thinking face. Very helpful."
     menu:
-    "Accept Bribe":
-        jump accept_bribe
-    "Deny the bribe":
-        jump deny_bribe
+        "Accept Bribe":
+            jump accept_bribe
+        "Deny the bribe":
+            jump deny_bribe
 
 
 label accept_bribe:
@@ -78,7 +78,7 @@ label accept_bribe:
             "There is hair wrapped around my neck and it's impossible to grip and as the long seconds tick by, my body starts to give up."
             "That's when I know there's no use struggling anymore. "
             "I go limp and the world goes dark."
-        if  minigame_win:
+        elif  minigame_win:
             "The w  huffs for a moment and crosses her arm like a child. "
             w "Well, I guess a deal's a deal, then."
             "She tilts her head."
@@ -106,10 +106,10 @@ w "Where's your grandpa now? Just the name of the graveyard is enough."
 "A glint in her eye tells me she has a reason, but I don't press. "
 "It'll be easier to just give her an answer."
 menu:
-"He's been cremated":
-    jump cremated
-"I'm not sure":
-    jump omission
+    "He's been cremated":
+        jump cremated
+    "I'm not sure":
+        jump omission
 label cremated:
     d "He's actually in an urn now. My family cremated him. "
     "The w 's eyes light up."
@@ -134,7 +134,7 @@ label omission:
         "Who knows how many more of these strange inhabitants are around? "
     else:
         "Actually, this may be a good time to check on the living room. After all, I'm not too sure how well-acquainted these inhabitants are, and I would like to avoid fights if possible."
-label deny_bribe
+label deny_bribe:
     d "I don't know if I should take a bribe, but—"
     w "But you'll help me out of the kindness of your own heart?"
 menu:

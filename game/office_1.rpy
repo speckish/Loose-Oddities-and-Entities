@@ -1,4 +1,5 @@
-scene: office + bg_orb)
+scene office
+#note + bg_orb
 #note- Expression: Drew ecs, mf)
 "The door to the office creaks as I twist the ancient, tarnished handle and allow fresh air into the room."
 #note- Expression: Drew ec, mg)
@@ -14,22 +15,26 @@ scene: office + bg_orb)
 #note- Expression: Drew enf, bn, mf)
 "I grab a nearby basket and unceremoniously sweep junk inside, systematically dumping level by level. I can't tell what half of this stuff even is. Case and point—this garishly wrapped bowling ball. "
 scene office - zoom into orb
-If gone to STORAGE first
-#note- Expression: Drew ecf, bh, msh)
-"I pause. "
-#note- Expression: Drew bw)
-"Wait, I've seen this hideous wrapping before. Wasn't this on the chest in the Storage room with the talking mannequin? Is this another one of Grandpa's \"surprises\”?"
-"I warily eye the deceptively innocent-seeming bowling ball. "
-(If not gone to STORAGE yet)
+if storage_explored:
+    #note- Expression: Drew ecf, bh, msh)
+    "I pause. "
+    #note- Expression: Drew bw)
+    "Wait, I've seen this hideous wrapping before. Wasn't this on the chest in the Storage room with the talking mannequin? Is this another one of Grandpa's \"surprises\”?"
+    "I warily eye the deceptively innocent-seeming bowling ball. "
+else:
 #note- Expression: Drew ecf, bh, mf)
-"Who giftwraps a bowling ball in tape with the most eye-watering shade of yellow imaginable? It's like its very existence was made to offend the eyes of anyone who saw it."
-"Horrifying design choices aside though, there is something about it that feels... off, somehow. Like a prickle along my back. Feels creepy. "
-"Hm. Should I ignore every single instinct screaming DANGER and grab the thing, or should I leave it alone? "
-(option: #grab_orb or #leave_orb)
-(jump to #grab_orb)
-scene: office - zoom out to full, -bg_orb)
-(Insert Close Up Box)
-(Show: Orb tape_full)
+    "Who giftwraps a bowling ball in tape with the most eye-watering shade of yellow imaginable? It's like its very existence was made to offend the eyes of anyone who saw it."
+    "Horrifying design choices aside though, there is something about it that feels... off, somehow. Like a prickle along my back. Feels creepy. "
+    "Hm. Should I ignore every single instinct screaming DANGER and grab the thing, or should I leave it alone? "
+    menu:
+        "grab_orb":
+            jump grab_orb
+        "leave_orb":
+            jump leave_orb
+scene office
+#note zoom out to full, -bg_orb)
+#note  Insert Close Up Box
+#note Show: Orb tape_full
 "I grab it, holding it close with one hand and searching for the end of the tape with the other. I rip."
 #note- Expression: Drew ewf, bh, mg)
 #note- Expression: Orb spike_top, tape_top)
@@ -55,38 +60,41 @@ label poke_orb:
 #note- Expression: Drew ewf, bf, msh, extra_dread)
 "I glance down, numbly, at the blackened spikes driven through my torso and limbs. Red ran rivulets down the spikes and pooled eerily beneath the Orb. "
 "I belatedly ask myself, Why did I think it was a good idea to touch it?"
-scene: death_orb)
+scene death_orb
 "The Orb retracts its spikes and I fall to the floor. "
 "Dead."
-(RETURN TO MAIN MENU)
-(jump to #don't_poke_orb)
-#note- Expression: Drew enf, bw, mf)
-"Nope, not going to do it. Curiosity killed the cat and all that. I'm too sober to be making stupid decisions while the sun is still up. "
-scene: hallway)
-#note- Expression: Drew ens, msh)
-"I briskly walked out of the room and—oh hell, it's following me. No thanks, bye."
-scene: storage - left end + doll_chest
-if not gone yet OR scene: 
-    "…. black because garbled won't draw another room for one segment."
-    "I slip into the closest door across the hall and slam the door shut. "
-    #note- Expression: Drew ewf, bf, mg)
-    "There's a thunk. Then another thunk. And then to my horror, I hear it scraping against the doorknob. The knob is two feet higher than it, and it has no extra appendages to jiggle the handle. So how in the world did it manage to reach the knob?"
-    "With a final crack (I'm fairly certain it stabbed the door that time), silence reigned. I waited a moment."
-    "Then another. "
-    #note- Expression: Drew ec, bh, msh)
-    "Three beats pass before I breathe a sigh of relief, steppin away from the door. It seems like it's gone."
-    #note- Expression: Drew ecs, bw, mf)
-    "... At least for now."
-if not storage_explored::
-    "I finally look at my settings."
-else
-    "I let my eyes adjust to the darkness and squint around the room I hid in. Bathroom, huh…"
-    "I'll worry about it after I'm not hiding."
-    if storage_1:
-        jump living_room_2
+return
+
+label dont_poke_orb:
+    #note- Expression: Drew enf, bw, mf)
+    "Nope, not going to do it. Curiosity killed the cat and all that. I'm too sober to be making stupid decisions while the sun is still up. "
+    scene hallway
+    #note- Expression: Drew ens, msh)
+    "I briskly walked out of the room and—oh hell, it's following me. No thanks, bye."
+    scene storage
+    #note - left end + doll_chest
+    if storage_explored: 
+    #note - if not gone yet OR scene: <== what is this "not gone OR scene" referencing?
+        "…. black because garbled won't draw another room for one segment."
+        "I slip into the closest door across the hall and slam the door shut. "
+        #note- Expression: Drew ewf, bf, mg)
+        "There's a thunk. Then another thunk. And then to my horror, I hear it scraping against the doorknob. The knob is two feet higher than it, and it has no extra appendages to jiggle the handle. So how in the world did it manage to reach the knob?"
+        "With a final crack (I'm fairly certain it stabbed the door that time), silence reigned. I waited a moment."
+        "Then another. "
+        #note- Expression: Drew ec, bh, msh)
+        "Three beats pass before I breathe a sigh of relief, steppin away from the door. It seems like it's gone."
+        #note- Expression: Drew ecs, bw, mf)
+        "... At least for now."
+    if not storage_explored:
+        "I finally look at my settings."
     else:
-        jump storage_1
-label leave_orb
+        "I let my eyes adjust to the darkness and squint around the room I hid in. Bathroom, huh…"
+        "I'll worry about it after I'm not hiding."
+        if storage_1:
+            jump living_room_2
+        else:
+            jump storage_1
+label leave_orb:
     #note- Expression: Drew ecf, bw, mf)
     "Nope, I'm not dealing with this. I have a healthy sense of self-preservation, and my self-preservation is telling me to walk away."
     "So that's precisely what I did. I turned around and walked the way I came in. "
@@ -101,6 +109,6 @@ label leave_orb
         #note- Expression: Drew ewf, bh, msh)
         "At least until I heard a bang. "
         "It was the same sound from earlier, before I started cleaning the office. Just what is causing that racket?"
-        scene: hallway
+        scene hallway
         "I swiftly stepped out into the hallway right as another bang happened. It sounded like it came from... the storage room? "
         jump storage_1

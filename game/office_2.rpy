@@ -1,5 +1,5 @@
 label office_2:
-    $ if not orb_unwrapped:
+    if not orb_unwrapped:
         scene hallway 
         "Alright. Time to deal with whatever creature that dwells in Grandpa's office."
         scene office
@@ -51,7 +51,7 @@ label office_2:
             "Ugh. Well, at least it's not moving. I'll throw it out with the rest of the trash later"
             jump rooms_choice
 
-    $ if orb_unwrapped:
+    if orb_unwrapped:
         scene hallway
         #note close up of orb
         "I watch as the Orb rolls into a door, then another across the hall, and then back to a third door with a loud thunk. Maybe I was hasty earlier calling it a bowling ball."
@@ -145,10 +145,10 @@ label lead_orb_downstairs:
     #note multiple scenes?
     "I swivel around and book it, zipping down the stairs. I can hear it thunking noisily (and rapidly) down the steps behind me. I practically fly down the banister and throw myself to the living room, dashing—"
     menu:
-    "Straight":
-        jump run_straight
-    "To the side":
-        jump run_gay
+        "Straight":
+            jump run_straight
+        "To the side":
+            jump run_gay
 
 label run_straight:
     "—straight forward, charging like a bull."

@@ -17,12 +17,12 @@ h "Huh…?"
 h "Now, who in the heck are you?"
 h "Hello? I'm speaking to you? Did the old man send you up as a snack?"
 menu:
-"I'm Drew.":
-    jump horn_intro
-"You first.":
-    jump horn_uno_reverse
-"I'm here to dispose of you.":
-    jump horn_dispose
+    "I'm Drew.":
+        jump horn_intro
+    "You first.":
+        jump horn_uno_reverse
+    "I'm here to dispose of you.":
+        jump horn_dispose
 
 label horn_dispose:
     d "I'm here to dispose of you."
@@ -32,7 +32,8 @@ label horn_dispose:
     h "Well? Make it snappy. Get it over with all ready."
 
 if with_cards:
-    scene bedroom - zoom out + pan down)
+    scene bedroom 
+    #note zoom out + pan down
     "A wiggle in my pocket snatches my attention. A card slips out, showing me a picture of escargot being seasoned with salt."
     "Before I can even comment about how specific that is, something thunks in the toy kitchen. I cautiously approach. I open the little wooden oven and stare at its contents, baffled."
     "I take out the tipped over carton of salt. It's honest to goodness real salt you use at the table and not the plastic knock-off version that comes with a kid's play kitchen."
@@ -45,6 +46,7 @@ if with_cards:
     scene bedroom
     #note zoom out)
     "I'll mop it up later once everything is settled. If it stains the wood floors… it's not my fault."
+    $ rooms_left = rooms_left - 1
     jump rooms_choice
 else:
     d "Alright then. I'll try to make it quick."
@@ -58,6 +60,7 @@ else:
     "And then she collapses into a puddle of goo, the blood and skin and whatever she was made of forming into one fluid. The knife bounces off the floor and lands a bit outside the perimeter."
     "I stare at the puddle and thoughtfully hum. "
     "Well… I'm not sure how I'm going to go about cleaning that. I might have to go out and grab some rubber gloves. That's a problem for later, though."
+    $ rooms_left = rooms_left - 1
     jump rooms_choice
 
 label horn_intro:
@@ -71,7 +74,7 @@ label horn_uno_reverse:
     d "Alright, thanks for the introduction. I'm Drew."
     "She narrows her eyes at me and twists around."
     h "Drew? And what {i}drew{/i} you to this room, you insolent nonbeliever."
-    h "Bring me that wrinkly older mortal, and he will confirm that I am indeed the ruler of gluttony unrivaled across all the cosmos—!”"
+    h "Bring me that wrinkly older mortal, and he will confirm that I am indeed the ruler of gluttony unrivaled across all the cosmos—!"
     d "He's dead."
     h "Oh."
     h "Huh."
@@ -110,6 +113,7 @@ d "What…?"
 "We stare at each other for a beat."
 d "I'm gonna… leave you to stretch out after being stuck up there for however long."
 "I swiftly vacate the room. Sure, I might have unleashed the future harbinger of the apocalypse, but at least she'll be out of the house."
+$ rooms_left = rooms_left - 1
 if rooms_left > 0:
     "I hope none of Grandpa's other “tenents” are this haughty. One is enough, thanks. "
 else:
@@ -121,25 +125,43 @@ jump rooms_choice
 h "Oh… I wonder what I should do first out there. Oh! Oh! I know, I want to eat something sweet. Maybe one of those, uh… What's the word? It's sweet and slimy?"
 menu:
     "Ice cream?":
-    h "No, no, no! Cold things hurt my teeth!"
+        jump horned_sweet_1
     "Sweetfish?":
-    h "Yes! Raw, straight from the water into my gullet."
+        jump horned_sweet_2
     "Jackfruit?":
+        jump horned_sweet_3
+    
+label horned_sweet_1:
+    h "No, no, no! Cold things hurt my teeth!"
+label horned_sweet_2:
+    h "Yes! Raw, straight from the water into my gullet."
+label horned_sweet_3:
     h "Who's Jack Fruit? …Is he delicious? Damn, now he's all I'm gonna be thinking about!"
 h "Next, I'd like to dine on something fine. Like, uh, um… Sand? No, that's not it."
 menu:
-"Sandwiches?":
+    "Sandwiches?":
+        jump horned_fine_1
+    "Dirt?":
+        jump horned_fine_2
+    "A band full of hot people?":
+        jump horned_fine_3
+label horned_fine_1:
     h "Hm… Could go for a good bread on meat action anytime, but not what I'm thinking of. Come on, think better!"
-"Dirt?":
+label horned_fine_2:
     h "Nope. I ate that right before I got here, and I need variety in my life. What? You want me to live on a diet of {i}only{/i} decayed stuff? You're worse than gramps."
-"A band full of hot people?":
+label horned_fine_3:
     h "Yes! It's like you read my mind! Mmm, fresh musical meat. Sing me a ballad while you become my… meat salad."
-
-h "…And then I think I'd top it off with something really good—something other people wouldn't dare to eat, you know? You know? What do you think you know? (The other two times were her forgetting the words, this time she's being playful on purpose.)"
+h "…And then I think I'd top it off with something really good—something other people wouldn't dare to eat, you know? You know? What do you think you know?"
 menu:
     "Grandpa?":
-    h "Mummy or ash, anything would be the best taste in the world. Silly little slugs like you are afraid of that forbidden meal, though. Heh. More for the All-Encompassing Me."
+        jump horned_food_1
     "Yourself?":
-    h "…People shouldn't even try, duh. But are you stupid? Why would I eat myself?"
+        jump horned_food_2
     "Cockroaches?":
+        jump horned_food_3
+label horned_food_1:
+    h "Mummy or ash, anything would be the best taste in the world. Silly little slugs like you are afraid of that forbidden meal, though. Heh. More for the All-Encompassing Me."
+label horned_food_2:
+    h "…People shouldn't even try, duh. But are you stupid? Why would I eat myself?"
+label horned_food_3:
     h "Why shouldn't people eat cockroaches? Huh, you don't eat cockroaches? Why?"
